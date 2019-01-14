@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/myzhan/goreplay-udp/proto"
+	"github.com/lvrenhui/tcp_replay/proto"
 )
 
 type unitSizeVar int64

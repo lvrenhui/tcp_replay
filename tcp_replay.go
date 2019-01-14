@@ -21,7 +21,7 @@ func main() {
 		flag.Parse()
 	}
 	InitPlugins()
-	fmt.Printf("%d - %d\n", len(Plugins.Inputs), len(Plugins.Outputs))
+	fmt.Printf("input and output nums: %d - %d\n", len(Plugins.Inputs), len(Plugins.Outputs))
 
 	if len(Plugins.Inputs) == 0 || len(Plugins.Outputs) == 0 {
 		log.Fatal("Required at least 1 input and 1 output")

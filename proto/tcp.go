@@ -33,7 +33,7 @@ func NewTCPMessage(data []byte, isIncoming bool) (m *TCPMessage) {
 	m.DstPort = uint16(tcp.DstPort)
 	//todo : fix length
 	// m.length = tcp.Length
-	m.length = 100
+	m.length = uint16(len(tcp.Payload))
 	m.checksum = tcp.Checksum
 	m.data = tcp.Payload
 	m.IsIncoming = isIncoming

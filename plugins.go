@@ -97,4 +97,7 @@ func InitPlugins() {
 		registerPlugin(output.NewFileOutput, options, &Settings.outputFileConfig)
 	}
 
+	for _, options := range Settings.outputTCP {
+		registerPlugin(output.NewTCPOutput, options, &Settings.tcpOutputConfig)
+	}
 }

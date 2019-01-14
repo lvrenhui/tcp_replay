@@ -1,6 +1,8 @@
 package output
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // StdOutput used for debugging, prints all incoming requests
 type StdOutput struct {
@@ -14,6 +16,7 @@ func NewStdOutput() (i *StdOutput) {
 
 func (i *StdOutput) Write(data []byte) (int, error) {
 	fmt.Println(string(data))
+	// fmt.Println(len(proto.PayloadBody(data)))
 	return len(data), nil
 }
 
