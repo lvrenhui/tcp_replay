@@ -52,15 +52,16 @@ func init() {
 	flag.Var(&Settings.inputFile, "input-file", "Read requests from file: \n\ttcp_replay --input-file ./requests.gor --output-stdout")
 	flag.BoolVar(&Settings.inputFileLoop, "input-file-loop", false, "Loop input files, useful for performance testing")
 
-	flag.Var(&Settings.outputFile, "output-file", "Write incoming requests to file: \n\ttcp_replay --input-udp :80 --output-file ./requests.gor")
+	flag.Var(&Settings.outputFile, "output-file", "Write incoming requests to file: \n\ttcp_replay --input-tcp :80 --output-file ./requests.gor")
 	flag.DurationVar(&Settings.outputFileConfig.FlushInterval, "output-file-flush-interval", time.Second, "Interval for forcing buffer flush to the file, default: 1s")
 	flag.BoolVar(&Settings.outputFileConfig.Append, "output-file-append", false, "The flushed chunk is appended to existence file or not")
 
 	flag.BoolVar(&Settings.outputStdout, "output-stdout", false, "Used for testing inputs. Just prints to console data coming from inputs")
 
-	flag.Var(&Settings.outputTCP, "output-tcp", "Used for internal communication between Gor instances. Example: \n\t# Listen for requests on 80 port and forward them to other Gor instance on 28020 port\n\tgor --input-raw :80 --output-tcp replay.local:28020")
+	flag.Var(&Settings.outputTCP, "output-tcp", "Used for out put to tcp address like:\n\t tcp_replay --input-file pcap.out --output-tcp 127.0.0.1:4000")
 	flag.BoolVar(&Settings.tcpOutputConfig.Secure, "output-tcp-secure", false, "Use TLS secure connection. --input-file on another end should have TLS turned on as well.")
 	flag.BoolVar(&Settings.tcpOutputConfig.Stats, "output-tcp-stats", false, "Report TCP output queue stats to console every 5 seconds.")
+	flag.IntVar(&Settings.tcpOutputConfig.Repeat, "output-tcp-repeat", 1, "Reapt times for each request for perf testing to .")
 
 	// Set default
 	Settings.outputFileConfig.SizeLimit.Set("32mb")

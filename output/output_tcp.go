@@ -26,6 +26,7 @@ type TCPOutput struct {
 type TCPOutputConfig struct {
 	Secure bool
 	Stats  bool
+	Repeat int
 }
 
 // NewTCPOutput constructor for TCPOutput
@@ -51,7 +52,7 @@ func NewTCPOutput(address string, config *TCPOutputConfig) io.Writer {
 func (o *TCPOutput) worker() {
 	retries := 0
 	conn, err := o.connect(o.address)
-	log.Println(o.address)
+	// log.Println(o.address)
 	for {
 		if err == nil || retries > 10 {
 			break
@@ -75,14 +76,21 @@ func (o *TCPOutput) worker() {
 
 		// get body data ,ignore header
 		body := proto.PayloadBody(data)
-		conn.Write(body)
-		_, err := conn.Write([]byte(proto.PayloadSeparator))
 
-		if err != nil {
-			log.Println("INFO: TCP output connection closed, reconnecting")
-			o.buf <- data
-			go o.worker()
-			break
+		num := o.config.Repeat
+		for i := 0; i < num; i++ {
+
+			conn.Write(body)
+			_, err := conn.Write([]byte(proto.PayloadSeparator))
+
+			if err != nil {
+				log.Println("ERROR: TCP output connection closed!")
+				// not retry
+				// o.buf <- data
+				// go o.worker()
+				// break
+			}
+
 		}
 	}
 }
